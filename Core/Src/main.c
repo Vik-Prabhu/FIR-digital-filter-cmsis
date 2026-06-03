@@ -21,8 +21,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#define ARM_MATH_CM4
-#include "arm_math.h" 
+#include "fir_conv.h"
+#include "tfilter_coeff.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -46,6 +46,7 @@ CRC_HandleTypeDef hcrc;
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
+fir_conv_HandleTypeDef conv; // FIR convolution container
 
 /* USER CODE END PV */
 
@@ -80,6 +81,7 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
+  FIR_Conv_Init(&conv, (const float32_t *)filter_taps);  // Initialize FIR convolution container with filter coefficients
 
   /* USER CODE END Init */
 
@@ -102,6 +104,9 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+    HAL_Delay(500);
+    // FIR_Conv_Update(&conv, INPUT_BLOCK); // USE TO UPDATE FIR CONVOLUTION WITH NEW INPUT BLOCK
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
